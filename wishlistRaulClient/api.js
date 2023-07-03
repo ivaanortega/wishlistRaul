@@ -1,4 +1,4 @@
-let baseUrl = 'http://apiraul.ivanortegasensio.com';
+let baseUrl = 'https://apiraul.ivanortegasensio.com';
 
 // Función para realizar una solicitud POST
 function postData(url, data, auth = true) {
