@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API Wishlist</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <h1>API Wishlist</h1>
+
+  <h2>Crear Lista de Deseos</h2>
+  <form id="createWishlistForm">
+    <input type="text" name="name" placeholder="Nombre de la lista" required>
+    <button type="submit">Crear Lista</button>
+  </form>
+
+  <h2>Añadir Producto a Lista de Deseos</h2>
+  <form id="addProductForm">
+    <input type="text" name="wishlistId" placeholder="ID de la lista" required>
+    <input type="text" name="name" placeholder="Nombre del producto" required>
+    <button type="submit">Añadir Producto</button>
+  </form>
+
+  <h2>Marcar Producto como Comprado</h2>
+  <form id="markProductPurchasedForm">
+    <input type="text" name="wishlistId" placeholder="ID de la lista" required>
+    <input type="text" name="productId" placeholder="ID del producto" required>
+    <button type="submit">Marcar como Comprado</button>
+  </form>
+ 
+  <h2>Compartir Lista de Deseos</h2>
+  <form id="shareWishList">
+    <input type="text" name="wishlistId" placeholder="ID de la lista" required>
+    <input type="text" name="username" placeholder="Nombre de usuario" required>
+    <button type="submit">Compartir</button>
+  </form>
+
+  <h2>Eliminar Lista de Deseos</h2>
+  <form id="deleteWishlistForm">
+    <input type="text" name="wishlistId" placeholder="ID de la lista" required>
+    <button type="submit">Eliminar Lista</button>
+  </form>
+
+  <h2>Eliminar Producto de Lista de Deseos</h2>
+  <form id="deleteProductForm">
+    <input type="text" name="wishlistId" placeholder="ID de la lista" required>
+    <input type="text" name="productId" placeholder="ID del producto" required>
+    <button type="submit">Eliminar Producto</button>
+  </form>
+
+  <div id="wishList"></div>
+  <div id="sharedWishList"></div>
+
+  <button onClick="logout()">logout</button>
+
+  <script src="api.js"></script>
+  <script>
+    fillDivsWithData();
+    function fillDivsWithData() {
+        const div1 = document.getElementById('wishList');
+        const div2 = document.getElementById('sharedWishList');
+
+        getWithAuthorization('/wishlists')
+            .done(function(response) {
+            // Manipular la respuesta de la solicitud GET de wishlists
+            div1.textContent = JSON.stringify(response);
+            })
+            .fail(function(error) {
+                console.error(error);
+            });
+
+        getWithAuthorization('/shared-wishlists')
+            .done(function(response) {
+            // Manipular la respuesta de la solicitud GET de shared-wishlists
+            div2.textContent = JSON.stringify(response);
+            })
+            .fail(function(error) {
+                console.error(error);
+            });
+    }
+
+  </script>
+</body>
+</html>
