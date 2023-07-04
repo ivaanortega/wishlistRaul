@@ -21,12 +21,22 @@ function postData(url, data, auth = true) {
           });
     }
   }
-
+  // Función para realizar una solicitud PUT
+  function putData(url, data){
+    return $.ajax({
+      type: 'PUT',
+      url:  baseUrl + url,
+      beforeSend: setAuthorizationHeader,
+      dataType: 'json',
+      data: JSON.stringify(data)
+    });
+  }
   // Función para realizar una solicitud DELETE
   function deleteData(url) {
     return $.ajax({
       type: 'DELETE',
       url: baseUrl + url,
+      beforeSend: setAuthorizationHeader,
       dataType: 'json'
     });
   }
@@ -114,7 +124,8 @@ function postData(url, data, auth = true) {
         refresh();
       })
       .fail(function(error) {
-        alert(error.responseJSON.error);
+        
+        checkError(error);
       });
   });
 
@@ -131,7 +142,7 @@ function postData(url, data, auth = true) {
         refresh();
       })
       .fail(function(error) {
-        alert(error.responseJSON.error);
+        checkError(error);
       });
   });
 
@@ -147,7 +158,7 @@ function postData(url, data, auth = true) {
         refresh();
       })
       .fail(function(error) {
-        alert(error.responseJSON.error);
+        checkError(error);
       });
   });
 
@@ -159,19 +170,15 @@ function postData(url, data, auth = true) {
     const url = '/wishlists/' + $(this).find('input[name="wishlistId"]').val() + '/products/' + $(this).find('input[name="productId"]').val();
     const data = {};
 
-    $.ajax({
-      type: 'PUT',
-      url: url,
-      beforeSend: setAuthorizationHeader,
-      dataType: 'json'
-    })
+    putData(url, data)
       .done(function(response) {
         alert(response.message);
         refresh();
       })
       .fail(function(error) {
-        alert(error.responseJSON.error);
+        checkError(error);
       });
+    
   });
 
   // Función para manejar el envío del formulario de eliminación de lista de deseos
@@ -186,7 +193,7 @@ function postData(url, data, auth = true) {
         refresh();
       })
       .fail(function(error) {
-        alert(error.responseJSON.error);
+        checkError(error);
       });
   });
 
@@ -199,9 +206,10 @@ function postData(url, data, auth = true) {
     deleteData(url)
       .done(function(response) {
         alert(response.message);
+        refresh();
       })
       .fail(function(error) {
-        alert(error.responseJSON.error);
+        checkError(error);
       });
   });
 
@@ -211,4 +219,17 @@ function postData(url, data, auth = true) {
   }
   function refresh(){
     location.reload();
+  }
+  function checkError(error, alert = false){
+    if(error.status == 401){
+      logout();
+    }
+    else{
+      if(alert){
+        alert(error.responseJSON.error);
+      }else{
+        console.log(error.responseJSON.error);
+      }
+      
+    }
   }

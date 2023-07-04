@@ -4,8 +4,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 
-
-
 const app = express();
 // Habilitar CORS
 app.use(cors());
@@ -14,10 +12,27 @@ app.use(express.json());
 
 // Configuración de la base de datos
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'root',
-  database: 'wishlist_raul'
+  host: process.env.HOST || 'localhost',
+  user: process.env.USER ||'root',
+  password: process.env.PASSWORD ||'root',
+  database: process.env.DATABASE  ||'wishlist_raul'
+});
+
+
+app.get("/getMysqlStatus", (req, res) => {
+  
+  db.connect((err) => {
+    if (err) {
+      console.log("Database Connection Failed !!!", err);
+    } else {
+      console.log("connected to Database");
+    }
+    });
+  db.ping((err) => {
+    if(err) return res.status(500).send("MySQL Server is Down " + process.env.USER );
+      
+    res.send("MySQL Server is Active");
+  })
 });
 
 // Ruta para registrar un usuario
@@ -186,7 +201,7 @@ app.post('/wishlists/:wishlistId/share', verifyToken, (req, res) => {
     const wishlistId = req.params.wishlistId;
     const { username } = req.body;
   
-    const sql = 'SELECT id FROM users WHERE username = ?';
+    const sql = 'SELECT id FROM users WHERE username = ? and id != ' + req.user.id;
     db.query(sql, [username], (err, results) => {
       if (err) {
         res.status(500).json({ error: 'Error al compartir la lista de deseos' });
@@ -206,6 +221,27 @@ app.post('/wishlists/:wishlistId/share', verifyToken, (req, res) => {
     });
   });
   
+  // Ruta para obtener los productos de una lista de deseos
+  app.get('/wishlists/:wishlistId/products', verifyToken, (req, res) => {
+    const wishlistId = req.params.wishlistId;
+    const userId = req.user.id;
+
+    const sql = `
+      SELECT p.id, p.name, p.purchased
+      FROM products p
+      INNER JOIN wishlists w ON p.wishlist_id = w.id
+      LEFT JOIN wishlist_members wm ON wm.wishlist_id = w.id
+      WHERE (w.moderator_id = ? OR wm.user_id = ?) AND w.id = ?
+    `;
+
+    db.query(sql, [userId, userId, wishlistId], (err, results) => {
+      if (err) {
+        res.status(500).json({ error: 'Error al obtener los productos de la lista de deseos' });
+      } else {
+        res.status(200).json({ products: results });
+      }
+    });
+  });
 
 // Middleware para verificar el token de autenticación
 function verifyToken(req, res, next) {
@@ -232,7 +268,9 @@ function verifyToken(req, res, next) {
     }
   }
 
+
+
 // Iniciar el servidor
-app.listen(3000, () => {
+app.listen(process.env.PORT ||3000, () => {
   console.log('Servidor iniciado en el puerto 3000');
 });
