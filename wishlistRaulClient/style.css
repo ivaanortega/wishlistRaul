@@ -1,0 +1,40 @@
+:root {
+    --primary: #FEAF00;
+    --secondary: #F8D442;
+    --text: black;
+  }
+  @font-face {
+    font-family: "customFont";
+    src:  url("/fonts/PlusJakartaSans-VariableFont_wght.woff2") format("woff2 supports variations"),
+            url("/fonts/PlusJakartaSans-VariableFont_wght.woff2") format("woff2-variations");
+    font-weight: 100 1000;
+  }
+  html,body{
+    margin: 0;
+    padding: 0;
+    font-family: "customFont";
+  }
+  .enterPage{
+      height: 100vh;
+      width: 100vw;
+      background: linear-gradient(226deg, var(--secondary) 0%, var(--primary) 100%);
+  }
+  .enterModal{
+
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    align-items: center;
+    
+  }
+  .enterModalChild{
+    width: 100%;
+    padding: 30px;
+    max-width: 400px;
+    height: auto;
+    flex-shrink: 0;
+    border-radius: 20px;
+    border: 2px solid #D6D6D6;
+    background: #FFF;
+    
+  }

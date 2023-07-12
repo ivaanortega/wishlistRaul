@@ -1,22 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html class="enterPage">
 <head>
   <title>LOGIN</title>
   <meta charset="utf-8">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <h1>Login</h1>
+  <div class="enterModal" >
+    <div  class="enterModalChild">
 
-  <a href="/register/">Registrar</a>
+    
+      <h1>Login</h1>
 
-  <h2>Iniciar Sesión</h2>
-  <form id="loginForm" method="post">
-    <input type="text" name="username" placeholder="Username" required>
-    <input type="password" name="password" placeholder="Password" required>
-    <button type="submit">Iniciar Sesión</button>
-  </form>
+      <a href="/register/">Registrar</a>
 
+      <h2>Iniciar Sesión</h2>
+      <form id="loginForm" method="post">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Iniciar Sesión</button>
+      </form>
+    </div>
+  </div>
   <script src="/api.js"></script>
 </body>
 </html>
