@@ -1,28 +1,40 @@
 <!DOCTYPE html>
-<html class="enterPage">
+<html>
 <head>
   <title>LOGIN</title>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <div class="enterModal" >
-    <div  class="enterModalChild">
-
-    
-      <h1>Login</h1>
-
-      <a href="/register/">Registrar</a>
-
-      <h2>Iniciar Sesión</h2>
-      <form id="loginForm" method="post">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <button type="submit">Iniciar Sesión</button>
-      </form>
+  <div class="content enterPage">
+    <div class="enterModal" >
+      <div  class="enterModalChild">
+        
+        <header>
+          <h1>Login</h1>
+          <h2>to get started</h2>
+        </header>
+        <article>
+            <form id="loginForm" method="post">
+              <div style="margin-bottom: 40px;">
+                <div class="wrapper"><input type="text" name="username" placeholder="Username" required></div>
+                <div class="wrapper"><input type="password" name="password" placeholder="Password" required></div>
+              </div>
+              
+              <button type="submit" class="primary">Continue</button>
+            </form>
+            <small>New User? <a href="/register/">Register</a></small>
+        </article>
+        
+        
+  
+        
+      </div>
     </div>
   </div>
+  
   <script src="/api.js"></script>
 </body>
 </html>
