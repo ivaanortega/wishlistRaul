@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API Wishlist</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <h1>API Wishlist</h1>
+
+  <h2>Crear Lista de Deseos</h2>
+  <form id="createWishlistForm">
+    <input type="text" name="name" placeholder="Nombre de la lista" required>
+    <button type="submit">Crear Lista</button>
+  </form>
+
+  <h2>Añadir Producto a Lista de Deseos</h2>
+  <form id="addProductForm">
+    <input type="text" name="wishlistId" placeholder="ID de la lista" required>
+    <input type="text" name="name" placeholder="Nombre del producto" required>
+    <button type="submit">Añadir Producto</button>
+  </form>
+
+  <h2>Marcar Producto como Comprado</h2>
+  <form id="markProductPurchasedForm">
+    <input type="text" name="wishlistId" placeholder="ID de la lista" required>
+    <input type="text" name="productId" placeholder="ID del producto" required>
+    <button type="submit">Marcar como Comprado</button>
+  </form>
+ 
+  <h2>Compartir Lista de Deseos</h2>
+  <form id="shareWishList">
+    <input type="text" name="wishlistId" placeholder="ID de la lista" required>
+    <input type="text" name="username" placeholder="Nombre de usuario" required>
+    <button type="submit">Compartir</button>
+  </form>
+
+  <h2>Eliminar Lista de Deseos</h2>
+  <form id="deleteWishlistForm">
+    <input type="text" name="wishlistId" placeholder="ID de la lista" required>
+    <button type="submit">Eliminar Lista</button>
+  </form>
+
+  <h2>Eliminar Producto de Lista de Deseos</h2>
+  <form id="deleteProductForm">
+    <input type="text" name="wishlistId" placeholder="ID de la lista" required>
+    <input type="text" name="productId" placeholder="ID del producto" required>
+    <button type="submit">Eliminar Producto</button>
+  </form>
+
+  
+  <h2>Lista de Deseos del Usuario</h2>
+  
+  <div id="wishList">
+    <table id="table-wishlist">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Shared</th>
+          <th>Actions</th>
+        </tr> 
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+
+
+  <h2>Productos de la primera lista de deseos encontrada</h2>
+  <div id="firstWishListProducts"></div>
+
+  <h2>Listas de deseos compartidas con el usuario</h2>
+  <div id="sharedWishList"></div>
+
+  <hr>
+
+  <button onClick="logout()">logout</button>
+
+  <script src="api.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>

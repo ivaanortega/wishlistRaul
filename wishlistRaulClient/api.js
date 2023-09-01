@@ -120,7 +120,7 @@ function postData(url, data, auth = true) {
 
     postData(url, data)
       .done(function(response) {
-        alert(response.message);
+        //alert(response.message);
         refresh();
       })
       .fail(function(error) {
@@ -138,7 +138,7 @@ function postData(url, data, auth = true) {
 
     postData(url, data)
       .done(function(response) {
-        alert(response.message);
+        //alert(response.message);
         refresh();
       })
       .fail(function(error) {
@@ -154,7 +154,7 @@ function postData(url, data, auth = true) {
 
     postData(url, data)
       .done(function(response) {
-        alert(response.message);
+        //alert(response.message);
         refresh();
       })
       .fail(function(error) {
@@ -172,7 +172,7 @@ function postData(url, data, auth = true) {
 
     putData(url, data)
       .done(function(response) {
-        alert(response.message);
+        //alert(response.message);
         refresh();
       })
       .fail(function(error) {
@@ -189,13 +189,38 @@ function postData(url, data, auth = true) {
 
     deleteData(url)
       .done(function(response) {
-        alert(response.message);
+        //alert(response.message);
         refresh();
       })
       .fail(function(error) {
         checkError(error);
       });
   });
+
+
+  function deleteElement(id){
+    const url = '/wishlists/' + id;
+    deleteData(url)
+      .done(function(response) {
+        //alert(response.message);
+        refresh();
+      })
+      .fail(function(error) {
+        checkError(error);
+      });
+  }
+  function deleteProduct(idWishlist, idProduct){
+    const url = '/wishlists/' + idWishlist + "/products/" + idProduct;
+    
+    deleteData(url)
+      .done(function(response) {
+        //alert(response.message);
+        refresh();
+      })
+      .fail(function(error) {
+        checkError(error);
+      });
+  }
 
   // Función para manejar el envío del formulario de eliminación de producto de lista de deseos
   $('#deleteProductForm').submit(function(e) {
@@ -205,13 +230,16 @@ function postData(url, data, auth = true) {
 
     deleteData(url)
       .done(function(response) {
-        alert(response.message);
+        //alert(response.message);
         refresh();
       })
       .fail(function(error) {
         checkError(error);
       });
   });
+
+  
+
 
   function logout(){
     localStorage.removeItem("accessToken");

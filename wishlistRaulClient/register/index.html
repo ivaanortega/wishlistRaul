@@ -12,17 +12,20 @@
     <div class="enterModal">
       <div class= enterModalChild>
 
-        <h1>REGISTER</h1>
-
-
-        <h2>Registro de Usuario</h2>
-        <form id="registerForm">
-          <div class="wrapper"><input type="text" name="username" placeholder="Username" required></div>
-          <div class="wrapper"><input type="password" name="password" placeholder="Password" required></div>
-          <button type="submit" class="primary">Registrar</button>
-        </form>
-        <small>You have an account? <a href="/login/">Login</a></small>
-
+        <header>
+          <h1>Register</h1>
+        </header>
+        <article>
+          <form id="registerForm">
+            <div style="margin-bottom: 40px;">
+              <div class="wrapper"><input type="text" name="username" placeholder="Username" required></div>
+              <div class="wrapper"><input type="password" name="password" placeholder="Password" required></div>
+            </div>
+            
+            <button type="submit" class="primary">Registrar</button>
+          </form>
+          <small>You have an account? <a href="/login/">Login</a></small>
+        </article>
         <script src="/api.js"></script>
       </div>
     </div>

@@ -1,107 +1,122 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>API Wishlist</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
 </head>
+
 <body>
   <h1>API Wishlist</h1>
 
-  <h2>Crear Lista de Deseos</h2>
-  <form id="createWishlistForm">
-    <input type="text" name="name" placeholder="Nombre de la lista" required>
-    <button type="submit">Crear Lista</button>
-  </form>
-
-  <h2>Añadir Producto a Lista de Deseos</h2>
-  <form id="addProductForm">
-    <input type="text" name="wishlistId" placeholder="ID de la lista" required>
-    <input type="text" name="name" placeholder="Nombre del producto" required>
-    <button type="submit">Añadir Producto</button>
-  </form>
-
-  <h2>Marcar Producto como Comprado</h2>
-  <form id="markProductPurchasedForm">
-    <input type="text" name="wishlistId" placeholder="ID de la lista" required>
-    <input type="text" name="productId" placeholder="ID del producto" required>
-    <button type="submit">Marcar como Comprado</button>
-  </form>
+  
+  <button id="myBtn">Open Modal</button>
  
-  <h2>Compartir Lista de Deseos</h2>
-  <form id="shareWishList">
-    <input type="text" name="wishlistId" placeholder="ID de la lista" required>
-    <input type="text" name="username" placeholder="Nombre de usuario" required>
-    <button type="submit">Compartir</button>
-  </form>
-
-  <h2>Eliminar Lista de Deseos</h2>
-  <form id="deleteWishlistForm">
-    <input type="text" name="wishlistId" placeholder="ID de la lista" required>
-    <button type="submit">Eliminar Lista</button>
-  </form>
-
-  <h2>Eliminar Producto de Lista de Deseos</h2>
-  <form id="deleteProductForm">
-    <input type="text" name="wishlistId" placeholder="ID de la lista" required>
-    <input type="text" name="productId" placeholder="ID del producto" required>
-    <button type="submit">Eliminar Producto</button>
-  </form>
-
   <h2>Lista de Deseos del Usuario</h2>
-  <div id="wishList"></div>
 
-  <h2>Productos de la primera lista de deseos encontrada</h2>
-  <div id="firstWishListProducts"></div>
+  <div id="wishList">
+    <table id="table-wishlist">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Shared</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+
 
   <h2>Listas de deseos compartidas con el usuario</h2>
   <div id="sharedWishList"></div>
-
+  <table id="table-sharedWishlist">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Owner</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
   <hr>
 
   <button onClick="logout()">logout</button>
 
+
+  
+
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <div>
+        <h2>Crear Lista de Deseos</h2>
+        <form id="createWishlistForm">
+          <input type="text" name="name" placeholder="Nombre de la lista" required>
+          <button type="button" onclick="closeModal()">Close</button>
+          <button type="submit">Add</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- The Modal -->
+    <div id="modalConfirmDelete" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div>
+          <h2>Are You Sure?</h2>
+          <p id="deleteText"></p>
+         
+            
+            <button type="button" onclick="closeModal()">Close</button>
+            <button id="deleteWishlistFormButton" type="submit">Eliminar Lista</button>
+
+        </div>
+      </div>
+    </div>
+  
+
+
   <script src="api.js"></script>
+  <script src="index.js"></script>
   <script>
-    $(function() {
-      fillDivsWithData();
-    });
-   
+    // Get the modal
+    var modal = document.getElementById("myModal");
+    const modalDelete = document.getElementById("modalConfirmDelete");
 
-    function fillDivsWithData() {
-        const div1 = document.getElementById('wishList');
-        const div2 = document.getElementById('sharedWishList');
-        const div3 = document.getElementById('firstWishListProducts');
-
-        getWithAuthorization('/wishlists')
-        
-            .done(function(response) {
-              // Manipular la respuesta de la solicitud GET de wishlists
-              div1.textContent = JSON.stringify(response);
-              
-              //Ejemplo para rellenar la lista de productos obteniendo el valor de la wishlist
-              let rt = response['wishlists'];
-              if(rt && rt.length > 0){
-                getWithAuthorization('/wishlists/' + rt[0].id + '/products')
-                  .done(function(response) {div3.textContent = JSON.stringify(response);})
-                  .fail(function(error) {checkError(error);});
-              }
-            })
-            .fail(function(error) {
-                checkError(error);
-            });
-
-        getWithAuthorization('/shared-wishlists')
-            .done(function(response) {
-              // Manipular la respuesta de la solicitud GET de shared-wishlists
-              div2.textContent = JSON.stringify(response);
-            })
-            .fail(function(error) {
-              checkError(error);
-            });
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+    // When the user clicks the button, open the modal 
+    btn.onclick = function() {
+      modal.style.display = "block";
     }
-
-  </script>
+    
+    // When the user clicks on <span> (x), close the modal
+    function closeModal(){
+      modal.style.display = "none";
+      modalDelete.style.display = "none";
+    }
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+        modalDelete.style.display = "none";
+      }
+    }
+    </script>
 </body>
+
 </html>
