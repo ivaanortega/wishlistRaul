@@ -7,33 +7,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/body.css">
 </head>
 
 <body>
-  <h1>API Wishlist</h1>
+  <div class="body-header">
+    <h1>Wishlist-Raul</h1>
 
-  
-  <button id="myBtn">Open Modal</button>
- 
-  <h2>Lista de Deseos del Usuario</h2>
-
-  <div id="wishList">
-    <table id="table-wishlist">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Shared</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-      </tbody>
-    </table>
+    <button id="myBtn">+</button>
   </div>
 
+  <div class="my-lists">
+    <h2>My lists</h2>
 
-  <h2>Listas de deseos compartidas con el usuario</h2>
-  <div id="sharedWishList"></div>
+    <hr>
+  
+    <div id="wishList">
+      <table id="table-wishlist">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Shared</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="sharedWishList">
+  <h2>Shared with me</h2>
+  <hr>
+  <div id="wishlistShared">
   <table id="table-sharedWishlist">
     <thead>
       <tr>
@@ -45,8 +52,9 @@
     <tbody>
     </tbody>
   </table>
+  </div>
+  </div>
   <hr>
-
   <button onClick="logout()">logout</button>
 
 
