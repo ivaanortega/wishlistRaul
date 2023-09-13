@@ -1,7 +1,9 @@
 :root {
+    --white: #fff;
     --primary: #FEAF00;
     --secondary: #F8D442;
     --buttonColor: white;
+    --gray:  #bebebe;;
     --text: black;
   }
   @font-face {
@@ -15,6 +17,52 @@
     padding: 0;
     font-family: "customFont";
   }
+  .icon svg{
+    color: var(--primary);
+  }
+  
+.body-header{
+  display: flex;
+  justify-content: space-between;
+  padding-left: 50px;
+  padding-right: 35px;
+  background: linear-gradient(90deg, #FEAF00, #F8D442);
+  max-height: 70px;
+}
+
+.body-header h1{
+  color: var(--white);
+  font-size: 1.5rem;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.body-header button{
+  position: fixed;
+  right: 50px;
+  top:30px;
+  display: block;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  width: 60px;
+  height: 60px;
+  line-height: 0;
+  color: var(--primary);
+  font-size: 3.3rem;
+  box-shadow: 5px;
+  transition: transform 150ms ease-in-out;
+  
+  -webkit-box-shadow: 1px 3px 14px -4px rgba(0,0,0,0.75);
+  -moz-box-shadow: 1px 3px 14px -4px rgba(0,0,0,0.75);
+  box-shadow: 1px 3px 14px -4px rgba(0,0,0,0.75);
+
+}
+
+.body-header button:hover{
+  transform:scale(1.1);
+  font-size: 3.5rem;
+}
   a{
         text-decoration: none;
         color: var(--primary);
@@ -162,5 +210,98 @@
   cursor: pointer;
 }
 
+header a{
+  color: var(--white) !important;
+}
 
+html,body{
+  background-color: rgb(252, 245, 245);
+}
+
+.my-lists tr td:first-child{
+  padding-left: 20px;
+}
+
+/* my lists*/
+
+.my-lists{
+  margin: auto;
+  background-color: white;
+  max-width: 900px;
+  border-radius: 30px;
+  padding: 20px 30px;
+  margin-top: 30px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.my-lists hr{
+  background-color: #efefef;
+  height: 2px;
+  border: none;
+}
+
+.my-lists h2{
+  font-size: 18px;
+  padding-left: 10px;
+  text-transform: capitalize;
+}
+
+.my-lists table{
+ 
+  width: 100%;
+  padding: 0px 15px;
+}
+.my-lists table thead{
+  color: rgb(221, 217, 217);
+}
+.my-lists table tbody{
+  padding-left: 40px;
+  text-align: center;
+}
+.my-lists tbody td{
+  padding-bottom: 20px;
+  font-size: 13px;
+  text-transform: capitalize;
+}
+.my-lists thead th{
+  text-transform: capitalize;
+}
+
+/*shared wishlist*/
+
+.my-lists thead th{
+  padding-bottom: 10px;
+  color:var(--gray);
+  font-weight: 600;
+
+}
+.my-lists thead th:nth-child(1) {
+  width: 50%;
+  text-align: left;
   
+}
+
+.my-lists thead th:nth-child(2) {
+  width: 25%;
+  text-align: center;
+}
+
+.my-lists thead th:nth-child(3) {
+  width: 25%;
+  text-align: center;
+}
+
+.my-lists th,.my-lists tbody td:nth-child(1){
+  text-align: left;
+}
+button.icon, .icon{
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+button.icon svg,.icon svg{
+  height: 15px;
+  width: 15px;
+}
+.modal h2{
+  text-transform: capitalize;
+}

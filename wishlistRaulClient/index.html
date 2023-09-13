@@ -7,23 +7,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel="stylesheet" href="/style.css">
-  <link rel="stylesheet" href="/body.css">
 </head>
 
 <body>
 
-  <div class="body-header">
-    <h1>Wishlist-Raul</h1>
+  <header>
+    <div class="body-header">
+      <h1>Wishlist-Raul</h1>
 
-    <button id="myBtn">+</button>
-  </div>
+      <button id="myBtn">+</button>
+    </div>
+  </header>
+
 
   <div class="my-lists">
     <h2>My lists</h2>
 
     <hr>
-  
-    <div id="wishList">
+
+    <div id="wishList" class="table-parent">
       <table id="table-wishlist">
         <thead>
           <tr>
@@ -38,29 +40,28 @@
     </div>
   </div>
 
-  <div id="sharedWishList">
-  <h2>Shared with me</h2>
-  <hr>
-  <div id="wishlistShared">
-  <table id="table-sharedWishlist">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Owner</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-    </tbody>
-  </table>
-  </div>
+  <div id="sharedWishList" class="my-lists">
+    <h2>Shared with me</h2>
+    <hr>
+    <div id="wishlistShared" class="table-parent">
+      <table id="table-sharedWishlist">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Owner</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
   </div>
   <hr>
   <button onClick="logout()">logout</button>
-  <a href="/list.html">list</a>
 
 
-  
+
 
   <!-- The Modal -->
   <div id="myModal" class="modal">
@@ -71,62 +72,88 @@
       <div>
         <h2>Crear Lista de Deseos</h2>
         <form id="createWishlistForm">
-          <input type="text" name="name" placeholder="Nombre de la lista" required>
+          <div class="wrapper">
+            <input type="text" name="name" placeholder="Nombre de la lista" required>
+          </div>
           <button type="button" onclick="closeModal()">Close</button>
           <button type="submit">Add</button>
         </form>
       </div>
     </div>
   </div>
+  <!-- The Modal -->
+  <div id="viewModal" class="modal">
 
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <div>
+        <h2 id="viewModalTitle">Crear Lista de Deseos</h2>
+        <ul id="viewModalList">
 
-    <!-- The Modal -->
-    <div id="modalConfirmDelete" class="modal">
-
-      <!-- Modal content -->
-      <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <div>
-          <h2>Are You Sure?</h2>
-          <p id=" eteText"></p>
-         
-            
-            <button type="button" onclick="closeModal()">Close</button>
-            <button id="deleteWishlistFormButton" type="submit">Eliminar Lista</button>
-
-        </div>
+        </ul>
       </div>
     </div>
-  
+  </div>
+
+  <!-- The Modal -->
+  <div id="modalConfirmDelete" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <div>
+        <h2>Are You Sure?</h2>
+        <p id="deleteText"></p>
 
 
-  <script src="api.js"></script>
-  <script src="index.js"></script>
+        <button type="button" onclick="closeModal()">Close</button>
+        <button id="deleteWishlistFormButton" type="submit">Eliminar Lista</button>
+
+      </div>
+    </div>
+  </div>
+  <div class="SCROLL" style="height: 100vh;">
+    <div></div>
+
+  </div>
+
+
+  <script src="/icons/icons.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/index.js"></script>
   <script>
     // Get the modal
     var modal = document.getElementById("myModal");
+    const modalView = document.getElementById("viewModal");
     const modalDelete = document.getElementById("modalConfirmDelete");
 
     // Get the button that opens the modal
     var btn = document.getElementById("myBtn");
     // When the user clicks the button, open the modal 
-    btn.onclick = function() {
+    btn.onclick = function () {
       modal.style.display = "block";
+
     }
-    
+
     // When the user clicks on <span> (x), close the modal
-    function closeModal(){
+    function closeModal() {
       modal.style.display = "none";
+      modalView.style.display = "none";
       modalDelete.style.display = "none";
     }
     // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-      if (event.target == modal) {
+    window.onclick = function (event) {
+      if (event.target == modal ||
+        event.target == modalView ||
+        event.target == modalDelete
+      ) {
         modal.style.display = "none";
         modalDelete.style.display = "none";
+        modalView.style.display = "none";
       }
     }
-    </script>
+  </script>
 </body>
 
 </html>

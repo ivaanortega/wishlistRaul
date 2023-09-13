@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>API Wishlist</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/edit/style.css">
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <header>
+        <div class="body-header">
+            <h1><a href="/">Wishlist-Raul</a></h1>
+
+            <button id="myBtn">+</button>
+        </div>
+    </header>
+    <div class="my-lists">
+        <h2>Productos de la primera lista de deseos encontrada</h2>
+        <hr>
+
+        <div id="firstWishListProducts" class="table-parent">
+            <table id="table-products">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- The Modal -->
+    <div id="modalConfirmDelete" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div>
+                <h2>Are You Sure?</h2>
+                <p id="deleteText"></p>
+
+
+                <button type="button" onclick="closeModal()">Close</button>
+                <button id="deleteWishlistFormButton" type="submit">Eliminar Producto</button>
+
+            </div>
+        </div>
+    </div>
+    <script src="/icons/icons.js"></script>
+    <script src="/js/api.js"></script>
+    <script>
+        $(function () {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const listId = urlParams.get('id');
+
+            fillDataEdit();
+
+
+
+            function fillIcons(element, ids) {
+
+                let id = element['id'];
+                let ret = "<button id='btnDel" + id + "' class='del icon'>" + icons.trash + "</button>";
+                ret += "<button id='btnEdit" + id + "' class='edit icon'>" + icons.edit + "</button>";
+                ret += "<button id='btnView" + id + "' class='view icon'>" + icons.view + "</button>";
+
+                ids.push({
+                    buttonId: 'btnDel' + id,
+                    obj: element,
+                    type: "delete",
+                    id: id
+                });
+                ids.push({
+                    buttonId: 'btnEdit' + id,
+                    obj: element,
+                    type: "edit",
+                    id: id
+                });
+                ids.push({
+                    buttonId: 'btnView' + id,
+                    obj: element,
+                    type: "view",
+                    id: id
+                });
+
+                return "<div>" + ret + "</div>"
+
+            }
+
+            function deleteModalClick(element) {
+
+                console.log(element)
+                let modalDelete = document.getElementById("modalConfirmDelete");
+                modalDelete.style.display = "block";
+                document.getElementById("deleteText").textContent = "The product " + element['name'] +
+                    " will be deleted";
+
+                document.getElementById('deleteWishlistFormButton').addEventListener("click", function () {
+                    deleteProduct(listId, element['id']);
+                });
+
+            }
+
+            function addEventListeners(ids) {
+                ids.forEach(elem => {
+                    if (elem.type == "edit") {
+                        document.getElementById(elem['buttonId']).addEventListener("click",
+                    function () {
+                            //edit
+                            window.location.href = "/edit/?id=" + elem['id'];
+                        });
+                    } else if (elem.type == "delete") {
+                        document.getElementById(elem['buttonId']).addEventListener("click",
+                    function () {
+                            deleteModalClick(elem['obj']);
+                        });
+                    } else if (elem.type == "view") {
+                        document.getElementById(elem['buttonId']).addEventListener("click",
+                    function () {
+                            //show
+
+                        });
+                    }
+
+                });
+            }
+
+            function fillDataEdit() {
+                const productsWishlists = document.getElementById('table-products').getElementsByTagName(
+                    "tbody")[0];
+
+                getWithAuthorization('/wishlists/' + listId + '/products')
+                    .done(function (response) {
+
+                        let ids = [];
+                        // Manipular la respuesta de la solicitud GET de wishlists
+                        response['products'].forEach(element => {
+                            let name = "<td>" + element["name"] + "</td>";
+                            let actions = "<td>" + fillIcons(element, ids) + "</td>";
+                            productsWishlists.innerHTML += "<tr>" + name + actions + "</tr>";
+                        });
+                        addEventListeners(ids);
+                    })
+                    .fail(function (error) {
+                        checkError(error);
+                    });
+            }
+        });
+    </script>
+</body>
+
+</html>
