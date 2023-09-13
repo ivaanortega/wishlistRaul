@@ -5,11 +5,10 @@ $(function() {
 
   function fillDivsWithData() {
         
-      const tableWishlists = document.getElementById('table-wishlist').getElementsByTagName("tbody")[0];
-      const tableSharedWishlists = document.getElementById('table-sharedWishlist').getElementsByTagName("tbody")[0];
+      const tableWishlists = document.getElementById('table-list').getElementsByTagName("tbody")[0];
       const div3 = document.getElementById('firstWishListProducts');
 
-      getWithAuthorization('/wishlists')
+      getWithAuthorization('/addProductForm')
       
           .done(function(response) {
               let ids = [];

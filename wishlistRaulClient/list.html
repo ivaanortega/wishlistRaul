@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/list.css">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Añadir Producto a Lista de Deseos</h2>
+  <form id="addProductForm">
+    <input type="text" name="wishlistId" placeholder="ID de la lista" required>
+    <input type="text" name="name" placeholder="Nombre del producto" required>
+    <button type="submit">Añadir Producto</button>
+  </form>
+
+  <div class="body-header">
+    <h1>Wishlist-Raul</h1>
+
+    <button id="myBtn">+</button>
+  </div>
+
+  <div class="my-lists">
+    <h2>My lists</h2>
+
+    <hr>
+  
+    <div id="list">
+      <table id="table-list">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Shared</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

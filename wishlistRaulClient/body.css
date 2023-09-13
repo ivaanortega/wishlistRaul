@@ -15,7 +15,7 @@
     padding: 0;
     font-family: "customFont";
     background-color: rgb(252, 245, 245);
-  }
+}
 
 .body-header{
     display: flex;
@@ -137,4 +137,8 @@ thead th:nth-child(1) {
 
 tbody td:nth-child(1){
     text-align: left;
+}
+
+.delbutton{
+    color: red;
 }
