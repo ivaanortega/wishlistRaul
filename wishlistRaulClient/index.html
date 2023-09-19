@@ -75,8 +75,10 @@
           <div class="wrapper">
             <input type="text" name="name" placeholder="Nombre de la lista" required>
           </div>
-          <button type="button" onclick="closeModal()">Close</button>
-          <button type="submit">Add</button>
+          <div class="modal-buttons">
+            <button type="button" onclick="closeModal()">Close</button>
+            <button type="submit">Add</button>
+          </div>
         </form>
       </div>
     </div>
@@ -106,10 +108,10 @@
         <h2>Are You Sure?</h2>
         <p id="deleteText"></p>
 
-
-        <button type="button" onclick="closeModal()">Close</button>
-        <button id="deleteWishlistFormButton" type="submit">Eliminar Lista</button>
-
+        <div class="modal-buttons">
+          <button type="button" onclick="closeModal()">Close</button>
+          <button id="deleteWishlistFormButton" type="submit">Eliminar Lista</button>
+        </div>
       </div>
     </div>
   </div>

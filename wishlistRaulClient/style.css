@@ -305,3 +305,44 @@ button.icon svg,.icon svg{
 .modal h2{
   text-transform: capitalize;
 }
+
+/*modals*/
+
+.modal-content{
+  width: 100%;
+  max-width: 350px;
+  flex-shrink: 0;
+  border-radius: 15px;
+  border: 1px solid #D6D6D6;
+  background: #FFF;
+}
+
+.modal-content h2{
+  margin-bottom: 30px;
+}
+
+.modal-content form{
+  margin-bottom: 25px;
+}
+
+.modal-buttons{
+  margin-top: 25px;
+  display: flex;
+}
+
+.modal-buttons button{
+  border-radius: 10px;
+    border: 1px solid #EAEAEA;
+    background: var(--primary);
+    height: 52px;
+    width: 50%;
+    padding: 10px;
+    color: var(--buttonColor);
+    box-shadow: 0px 5px 20px 0px rgba(174, 174, 174, 0.20);
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.modal-buttons :nth-child(1){
+  background-color: var(--gray);
+}
