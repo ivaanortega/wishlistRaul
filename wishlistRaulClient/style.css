@@ -355,3 +355,36 @@ button.icon svg,.icon svg{
 .purchased{
   opacity: 50%;
 }
+
+.list-adder{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.list-adder form{
+  display: flex;
+}
+
+.edit-input{
+  border-radius: 10px;
+  border: 1px solid #EAEAEA;
+  background: #FFF;
+  padding: 3px 40px 12px 15px;
+  height: 13px;
+  box-shadow: 0px 5px 20px 0px rgba(174, 174, 174, 0.20);
+  margin-bottom: 10px;
+}
+
+.list-adder button{
+  border-radius: 10px;
+    border: 1px solid var(--background);
+    background: var(--primary);
+    height: 32px;
+    width: auto;
+    padding: 10px;
+    color: var(--buttonColor);
+    margin-left: 10px;
+    cursor: pointer;
+
+}

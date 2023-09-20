@@ -19,7 +19,20 @@
         </div>
     </header>
     <div class="my-lists">
-        <h2>Productos de la primera lista de deseos encontrada</h2>
+        <div class="list-adder">
+            <h2>Birthday Joan</h2>
+
+            <form id="addProductForm">
+                <input type="hidden" name="wishlistId" placeholder="ID de la lista" value="" required>
+
+                <div class="edit-input">
+                    <input type="text" name="name" placeholder="Nombre del producto" required>
+                </div>
+                <div class="modal.buttons">
+                    <button type="submit">Añadir Producto</button>
+                </div>
+            </form>
+        </div>
         <hr>
 
         <div id="firstWishListProducts" class="table-parent">
@@ -46,9 +59,10 @@
                 <h2>Are You Sure?</h2>
                 <p id="deleteText"></p>
 
-
-                <button type="button" onclick="closeModal()">Close</button>
-                <button id="deleteWishlistFormButton" type="submit">Eliminar Producto</button>
+                <div class="modal-buttons">
+                    <button type="button" onclick="closeModal()">Close</button>
+                    <button id="deleteWishlistFormButton" type="submit">Eliminar Producto</button>
+                </div>
 
             </div>
         </div>
