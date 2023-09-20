@@ -1,11 +1,17 @@
-:root {
+
+   /*default*/
+   :root {
     --white: #fff;
     --primary: #FEAF00;
     --secondary: #F8D442;
     --buttonColor: white;
     --gray:  #bebebe;;
     --text: black;
+    --icons: var(--primary);
+    --background: rgb(252, 245, 245);
+    --box-background: white;
   }
+
   @font-face {
     font-family: "customFont";
     src:  url("/fonts/PlusJakartaSans-VariableFont_wght.woff2") format("woff2 supports variations"),
@@ -16,9 +22,11 @@
     margin: 0;
     padding: 0;
     font-family: "customFont";
+    background-color: var(--background);
+    color: var(--text);
   }
   .icon svg{
-    color: var(--primary);
+    color: var(--icons);
   }
   
 .body-header{
@@ -26,7 +34,7 @@
   justify-content: space-between;
   padding-left: 50px;
   padding-right: 35px;
-  background: linear-gradient(90deg, #FEAF00, #F8D442);
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
   max-height: 70px;
 }
 
@@ -70,12 +78,12 @@
     }
     button.primary{
         border-radius: 10px;
-        border: 1px solid #EAEAEA;
+        border: 1px solid var(--background);
         background: var(--primary);
         height: 52px;
         padding: 10px;
         color: var(--buttonColor);
-        box-shadow: 0px 5px 20px 0px rgba(174, 174, 174, 0.20);
+        box-shadow: 0px 5px 20px 0px var(--background);
       }
       button.secondary{
         border-radius: 10px;
@@ -108,8 +116,8 @@
     max-width: 400px;
     flex-shrink: 0;
     border-radius: 15px;
-    border: 1px solid #D6D6D6;
-    background: #FFF;
+    border: 1px solid var(--background);
+    background: var(--box-background);
   }
   .enterModalChild header{
       margin-top: 45px;
@@ -186,25 +194,23 @@
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-/* Modal Content */
-.modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-}
+
 
 /* The Close Button */
-.close {
+
+.modal-content span.close{
+  visibility: hidden;  
+}
+
+.modal-content span.close {
   color: #aaaaaa;
   float: right;
   font-size: 28px;
   font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.modal-content span.close:hover,
+.modal-content span.close:focus {
   color: #000;
   text-decoration: none;
   cursor: pointer;
@@ -214,9 +220,7 @@ header a{
   color: var(--white) !important;
 }
 
-html,body{
-  background-color: rgb(252, 245, 245);
-}
+
 
 .my-lists tr td:first-child{
   padding-left: 20px;
@@ -226,12 +230,12 @@ html,body{
 
 .my-lists{
   margin: auto;
-  background-color: white;
+  background-color: var(--box-background);
   max-width: 900px;
-  border-radius: 30px;
+  border-radius: 12px;
   padding: 20px 30px;
   margin-top: 30px;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 4px 4px 0px rgb(0 0 0 / 7%);
 }
 .my-lists hr{
   background-color: #efefef;
@@ -310,39 +314,44 @@ button.icon svg,.icon svg{
 
 .modal-content{
   width: 100%;
-  max-width: 350px;
+  max-width: 400px;
   flex-shrink: 0;
   border-radius: 15px;
-  border: 1px solid #D6D6D6;
-  background: #FFF;
+  border: 1px solid var(--background);
+  background: var(--box-background);
+  margin: auto;
+  padding: 30px;
 }
 
 .modal-content h2{
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 }
 
 .modal-content form{
-  margin-bottom: 25px;
+  margin-bottom: 10px;
 }
 
 .modal-buttons{
-  margin-top: 25px;
+  margin-top: 40px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .modal-buttons button{
   border-radius: 10px;
-    border: 1px solid #EAEAEA;
+    border: 1px solid var(--background);
     background: var(--primary);
     height: 52px;
     width: 45%;
     padding: 10px;
     color: var(--buttonColor);
-    box-shadow: 0px 5px 20px 0px rgba(174, 174, 174, 0.20);
+    
     cursor: pointer;
 }
 
-.modal-buttons :nth-child(1){
-  background-color: var(--gray);
+.graybg{
+  background-color: var(--gray) !important;
+}
+.purchased{
+  opacity: 50%;
 }

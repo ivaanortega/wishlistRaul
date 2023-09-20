@@ -162,7 +162,24 @@ function postData(url, data, auth = true) {
       });
   });
 
-  
+  function comprar(wishlistId, productId, value){
+    let url = '/wishlists/' + wishlistId + '/products/' + productId;
+    if(value == false){
+      url += '/unbuy'
+    }else{
+      url += '/buy'
+    }
+    const data = {};
+
+    putData(url, data)
+      .done(function(response) {
+        //alert(response.message);
+        refresh();
+      })
+      .fail(function(error) {
+        checkError(error);
+      });
+  }
   // Función para manejar el envío del formulario de marca de producto como comprado
   $('#markProductPurchasedForm').submit(function(e) {
     e.preventDefault();
@@ -261,3 +278,4 @@ function postData(url, data, auth = true) {
       
     }
   }
+

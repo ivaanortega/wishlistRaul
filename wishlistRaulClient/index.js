@@ -22,6 +22,8 @@ function callView(elem) {
         }
       });
 
+      //clear data
+      viewModalList.innerHTML = null;
     
       if (prodNoComprados.length <= 0) {
         viewModalList.innerHTML = '<li>No products</li>';
@@ -99,7 +101,7 @@ function fillDivsWithData() {
     .done(function (response) {
 
       //////////////////////////////////    Add content to wishlist  ////////////////////////////////////////////////////////
-
+      console.log(response['wishlists']);
       let ids = [];
       // Manipular la respuesta de la solicitud GET de wishlists
       response['wishlists'].forEach(element => {

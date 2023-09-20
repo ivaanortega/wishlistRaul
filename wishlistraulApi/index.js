@@ -110,7 +110,7 @@ app.post('/wishlists', verifyToken, (req, res) => {
   });
   
   // Ruta para marcar un producto como comprado
-  app.put('/wishlists/:wishlistId/products/:productId', verifyToken, (req, res) => {
+  app.put('/wishlists/:wishlistId/products/:productId/buy', verifyToken, (req, res) => {
     const wishlistId = req.params.wishlistId;
     const productId = req.params.productId;
   
@@ -125,6 +125,22 @@ app.post('/wishlists', verifyToken, (req, res) => {
       }
     });
   });
+    // Ruta para marcar un producto como comprado
+    app.put('/wishlists/:wishlistId/products/:productId/unbuy', verifyToken, (req, res) => {
+      const wishlistId = req.params.wishlistId;
+      const productId = req.params.productId;
+    
+      const sql = 'UPDATE products SET purchased = false WHERE id = ? AND wishlist_id = ?';
+      db.query(sql, [productId, wishlistId], (err, result) => {
+        if (err) {
+          res.status(500).json({ error: 'Error al marcar el producto como comprado' });
+        } else if (result.affectedRows === 0) {
+          res.status(404).json({ error: 'Producto no encontrado' });
+        } else {
+          res.status(200).json({ message: 'Producto marcado como comprado' });
+        }
+      });
+    });
   
   // Ruta para eliminar una lista de deseos
   app.delete('/wishlists/:wishlistId', verifyToken, (req, res) => {

@@ -76,7 +76,7 @@
             <input type="text" name="name" placeholder="Nombre de la lista" required>
           </div>
           <div class="modal-buttons">
-            <button type="button" onclick="closeModal()">Close</button>
+            <button type="button" onclick="closeModal()" class="graybg">Close</button>
             <button type="submit">Add</button>
           </div>
         </form>
@@ -109,7 +109,7 @@
         <p id="deleteText"></p>
 
         <div class="modal-buttons">
-          <button type="button" onclick="closeModal()">Close</button>
+          <button type="button" onclick="closeModal()" class="graybg">Close</button>
           <button id="deleteWishlistFormButton" type="submit">Eliminar Lista</button>
         </div>
       </div>
@@ -124,6 +124,7 @@
   <script src="/icons/icons.js"></script>
   <script src="/js/api.js"></script>
   <script src="/index.js"></script>
+  <script src="/js/colors.js"></script>
   <script>
     // Get the modal
     var modal = document.getElementById("myModal");

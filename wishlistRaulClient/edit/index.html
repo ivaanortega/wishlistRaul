@@ -55,6 +55,7 @@
     </div>
     <script src="/icons/icons.js"></script>
     <script src="/js/api.js"></script>
+    <script src="/js/colors.js"></script>
     <script>
         $(function () {
             const queryString = window.location.search;
@@ -62,32 +63,43 @@
             const listId = urlParams.get('id');
 
             fillDataEdit();
+            addIdToInput();
 
+            function addIdToInput(){
+                //how to change input value with js -- hay que añadir un id al objeto <input type="hidden" name="wishlistId" placeholder="ID de la lista" value="" required>
+                // ir a buscar el input a traves del id que has añadido
+                // substituir el value => listId
+
+
+
+                
+            }
 
 
             function fillIcons(element, ids) {
 
                 let id = element['id'];
-                let ret = "<button id='btnDel" + id + "' class='del icon'>" + icons.trash + "</button>";
-                ret += "<button id='btnEdit" + id + "' class='edit icon'>" + icons.edit + "</button>";
-                ret += "<button id='btnView" + id + "' class='view icon'>" + icons.view + "</button>";
-
+                
+                let purchasedClass = element['purchased'] ? "purchased" : '';
+                
+                let ret = "<button id='btnCart" + id + "' class='edit icon " + purchasedClass + "'>" + icons.cart + "</button>";
+                
+                if (!element['purchased']) {
+                    ret += "<button id='btnDel" + id + "' class='del icon'>" + icons.trash + "</button>";
+                    purchasedClass = '';
+                    
+                    ids.push({
+                        buttonId: 'btnDel' + id,
+                        obj: element,
+                        type: "delete",
+                        id: id
+                    });
+                }
+                
                 ids.push({
-                    buttonId: 'btnDel' + id,
+                    buttonId: 'btnCart' + id,
                     obj: element,
-                    type: "delete",
-                    id: id
-                });
-                ids.push({
-                    buttonId: 'btnEdit' + id,
-                    obj: element,
-                    type: "edit",
-                    id: id
-                });
-                ids.push({
-                    buttonId: 'btnView' + id,
-                    obj: element,
-                    type: "view",
+                    type: "cart",
                     id: id
                 });
 
@@ -111,23 +123,23 @@
 
             function addEventListeners(ids) {
                 ids.forEach(elem => {
-                    if (elem.type == "edit") {
+                    if (elem.type == "cart") {
                         document.getElementById(elem['buttonId']).addEventListener("click",
-                    function () {
-                            //edit
-                            window.location.href = "/edit/?id=" + elem['id'];
-                        });
+                            function () {
+                                //edit
+                                let val = true;
+                                if (elem['obj']['purchased'] == true) {
+                                    val = false;
+                                }
+                                
+                                comprar(listId, elem['id'], val);
+
+                            });
                     } else if (elem.type == "delete") {
                         document.getElementById(elem['buttonId']).addEventListener("click",
-                    function () {
-                            deleteModalClick(elem['obj']);
-                        });
-                    } else if (elem.type == "view") {
-                        document.getElementById(elem['buttonId']).addEventListener("click",
-                    function () {
-                            //show
-
-                        });
+                            function () {
+                                deleteModalClick(elem['obj']);
+                            });
                     }
 
                 });
@@ -154,6 +166,21 @@
                     });
             }
         });
+
+        // Get the modal
+        const modalDelete = document.getElementById("modalConfirmDelete");
+
+
+        // When the user clicks on <span> (x), close the modal
+        function closeModal() {
+            modalDelete.style.display = "none";
+        }
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modalDelete) {
+                modalDelete.style.display = "none";
+            }
+        }
     </script>
 </body>
 
