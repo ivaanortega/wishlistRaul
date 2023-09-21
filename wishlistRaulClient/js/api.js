@@ -1,7 +1,10 @@
 let baseUrl = 'https://apiraul.ivanortegasensio.com';
 
+let user = null;
+
 // Función para realizar una solicitud POST
 function postData(url, data, auth = true) {
+  console.log(JSON.stringify(data));
     if(auth){
         return $.ajax({
             type: 'POST',
@@ -27,6 +30,7 @@ function postData(url, data, auth = true) {
       type: 'PUT',
       url:  baseUrl + url,
       beforeSend: setAuthorizationHeader,
+      contentType: 'application/json',
       dataType: 'json',
       data: JSON.stringify(data)
     });
@@ -95,6 +99,14 @@ function postData(url, data, auth = true) {
     return at;
   }
 
+  function isAutenticated(){
+    let at = localStorage.getItem('accessToken');
+    if(!at){
+      return false;
+    }else{
+      return true;
+    }
+  }
   // Función para agregar el token de acceso a la cabecera de las solicitudes
   function setAuthorizationHeader(xhr) {
     const token = getAccessToken();
@@ -256,6 +268,18 @@ function postData(url, data, auth = true) {
   });
 
   
+  if(isAutenticated()){
+    
+    getWithAuthorization('/me')
+        .done(function (response) {
+            user = response['user'][0];
+        })
+        .fail(function (error) {
+        checkError(error);
+    });
+  }else{
+    user = null;
+  }
 
 
   function logout(){

@@ -51,6 +51,7 @@ app.post('/register', (req, res) => {
   });
 });
 
+
 // Ruta para iniciar sesión
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
@@ -75,6 +76,19 @@ app.post('/login', (req, res) => {
   });
 });
 
+  // Ruta para información de usuario
+  app.get('/me', verifyToken, (req, res) => {
+    const userId = req.user.id;
+  
+    const sql = `SELECT id, username, email, theme FROM users WHERE id = ?`;
+    db.query(sql, [userId], (err, results) => {
+      if (err) {
+        res.status(500).json({ error: 'Error al obtener las listas de deseos compartidas' });
+      } else {
+        res.status(200).json({ user: results });
+      }
+    });
+  });
 
 // Ruta para crear una lista de deseos
 app.post('/wishlists', verifyToken, (req, res) => {
@@ -384,7 +398,9 @@ function verifyToken(req, res, next) {
   app.put('/users/:id', verifyToken, (req, res) => {
     const userId = req.params.id;
     const { username, email, theme } = req.body;
-
+    if(username == null || username == '' || email == null || email== ''){
+      return res.status(500).json({ error: 'El usuario o email no puede ser NULL', body:  req.body});
+    }
     // Check if the authenticated user is the same as the user being edited
     if (req.user.id !== parseInt(userId)) {
         return res.status(403).json({ error: 'No tienes permiso para editar este usuario' });

@@ -1,6 +1,5 @@
 
 const root = document.querySelector(':root');
-
 const setVariables = vars => Object.entries(vars).forEach(v => root.style.setProperty(v[0], v[1]));
 
 const aColor = {
@@ -40,8 +39,16 @@ const aColor = {
 };
  
 function getColor(){
-    return localStorage.getItem("colorTheme");
+    let color = null;
+    if(user != null){
+        color = user['theme'];
+    }
+    if(color == null || color == ''){
+        color = localStorage.getItem("colorTheme");
+    }
+    return color;
 }
+
 let c = getColor();
 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
     if(!c || c == 'null'){
@@ -65,9 +72,22 @@ function setColor(color){;
     setVariables(aColor[color]);
 }
 
+function getColorList(){
+    let keys = Object.keys(aColor);
+    return keys;
+}
 
 function updateColor(color){
-    localStorage.setItem("colorTheme", color);
-    setColor(color);
-    //window.refresh();
+    
+    if(!user){return;}
+    
+    user.theme = color.toLowerCase();
+
+   putData('/users/'+ user['id'],user).done(function (response) {
+        localStorage.setItem("colorTheme", color.toLowerCase());
+        setColor(color.toLowerCase());
+    })
+    .fail(function (error) {
+        checkError(error);
+    })
 }

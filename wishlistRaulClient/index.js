@@ -115,18 +115,6 @@ function fillDivsWithData() {
 
       ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-      //Ejemplo para rellenar la lista de productos obteniendo el valor de la wishlist
-      let rt = response['wishlists'];
-      if (rt && rt.length > 0) {
-        getWithAuthorization('/wishlists/' + rt[0].id + '/products')
-          .done(function (response) {
-            div3.textContent = JSON.stringify(response);
-          })
-          .fail(function (error) {
-            checkError(error);
-          });
-      }
     })
     .fail(function (error) {
       checkError(error);
