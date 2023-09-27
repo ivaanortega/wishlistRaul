@@ -42,9 +42,11 @@ function callView(elem) {
 function fillIcons(element, ids) {
 
   let id = element['id'];
-  let ret = "<button id='btnDel" + id + "' class='del icon'>" + icons.trash + "</button>";
-  ret += "<button id='btnEdit" + id + "' class='edit icon'>" + icons.edit + "</button>";
+  let ret = "<button id='btnEdit" + id + "' class='edit icon'>" + icons.edit + "</button>";
   ret += "<button id='btnView" + id + "' class='view icon'>" + icons.view + "</button>";
+  ret += "<button id='btnDel" + id + "' class='del icon'>" + icons.trash + "</button>";
+  
+  
 
   ids.push({
     buttonId: 'btnDel' + id,
@@ -151,8 +153,8 @@ function deleteModalClick(element) {
   modalDelete.style.display = "block";
   document.getElementById("deleteText").textContent = "The list " + element['name'] + " will be deleted";
 
-  document.getElementById('deleteWishlistFormButton').addEventListener("click", function () {
+  document.getElementById('deleteWishlistFormButton').onclick = function () {
     deleteElement(element['id']);
-  });
+  };
 
 }
