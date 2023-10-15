@@ -286,9 +286,11 @@ function postData(url, data, auth = true) {
     localStorage.removeItem("accessToken");
     window.location.replace("/login");
   }
+
   function refresh(){
     location.reload();
   }
+  
   function checkError(error, alert = false){
     if(error.status == 401){
       logout();

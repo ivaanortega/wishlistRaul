@@ -43,7 +43,15 @@ function fillIcons(element, ids) {
 
   let id = element['id'];
   let ret = "<button id='btnEdit" + id + "' class='edit icon'>" + icons.edit + "</button>";
-  ret += "<button id='btnView" + id + "' class='view icon'>" + icons.view + "</button>";
+  if(element['hasProducts']){
+    ret += "<button id='btnView" + id + "' class='view icon'>" + icons.view + "</button>";
+    ids.push({
+      buttonId: 'btnView' + id,
+      obj: element,
+      type: "view",
+      id: id
+    });
+  }
   ret += "<button id='btnDel" + id + "' class='del icon'>" + icons.trash + "</button>";
   
   
@@ -60,12 +68,7 @@ function fillIcons(element, ids) {
     type: "edit",
     id: id
   });
-  ids.push({
-    buttonId: 'btnView' + id,
-    obj: element,
-    type: "view",
-    id: id
-  });
+  
 
   return "<div>" + ret + "</div>"
 
