@@ -42,7 +42,9 @@ function callView(elem) {
 function fillIcons(element, ids) {
 
   let id = element['id'];
-  let ret = "<button id='btnEdit" + id + "' class='edit icon'>" + icons.edit + "</button>";
+
+let ret = "<button id='btnParticipate" + id + "' class='participate icon'>" + icons.users + "</button>";
+  ret += "<button id='btnEdit" + id + "' class='edit icon'>" + icons.edit + "</button>";
   if(element['hasProducts']){
     ret += "<button id='btnView" + id + "' class='view icon'>" + icons.view + "</button>";
     ids.push({
@@ -52,10 +54,16 @@ function fillIcons(element, ids) {
       id: id
     });
   }
+
   ret += "<button id='btnDel" + id + "' class='del icon'>" + icons.trash + "</button>";
   
   
-
+  ids.push({
+    buttonId: 'btnParticipate' + id,
+    obj: element,
+    type: "participate",
+    id: id
+  });
   ids.push({
     buttonId: 'btnDel' + id,
     obj: element,
