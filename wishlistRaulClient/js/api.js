@@ -269,10 +269,10 @@ function postData(url, data, auth = true) {
 
   
   if(isAutenticated()){
-    
     getWithAuthorization('/me')
         .done(function (response) {
             user = response['user'][0];
+            $('#userName').text(user.username);
         })
         .fail(function (error) {
         checkError(error);

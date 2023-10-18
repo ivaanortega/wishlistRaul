@@ -39,12 +39,24 @@ function callView(elem) {
     });
 }
 
-function fillIcons(element, ids) {
+function fillIcons(element, ids, isShared = false) {
 
   let id = element['id'];
 
-let ret = "<button id='btnParticipate" + id + "' class='participate icon'>" + icons.users + "</button>";
+  let ret = "";
+
+  if(element['shared']){
+    ret += "<button id='btnParticipate" + id + "' class='participate icon'>" + icons.users + "</button>";
+    ids.push({
+      buttonId: 'btnParticipate' + id,
+      obj: element,
+      type: "participate",
+      id: id
+    });
+  }
+
   ret += "<button id='btnEdit" + id + "' class='edit icon'>" + icons.edit + "</button>";
+  
   if(element['hasProducts']){
     ret += "<button id='btnView" + id + "' class='view icon'>" + icons.view + "</button>";
     ids.push({
@@ -54,22 +66,30 @@ let ret = "<button id='btnParticipate" + id + "' class='participate icon'>" + ic
       id: id
     });
   }
+  if(isShared){
 
-  ret += "<button id='btnDel" + id + "' class='del icon'>" + icons.trash + "</button>";
+    ret += "<button id='btnDel" + id + "' class='del icon'>" + icons.trash + "</button>";
+
+      ids.push({
+        buttonId: 'btnDel' + id,
+        type: "delete",
+        id: id,
+        obj: element
+      });
+  }else{
+    ret += "<button id='btnDel" + id + "' class='del icon'>" + icons.trash + "</button>";
+    ids.push({
+      buttonId: 'btnDel' + id,
+      obj: element,
+      type: "delete",
+      id: id
+    });
+  }
+ 
   
   
-  ids.push({
-    buttonId: 'btnParticipate' + id,
-    obj: element,
-    type: "participate",
-    id: id
-  });
-  ids.push({
-    buttonId: 'btnDel' + id,
-    obj: element,
-    type: "delete",
-    id: id
-  });
+  
+ 
   ids.push({
     buttonId: 'btnEdit' + id,
     obj: element,
@@ -82,12 +102,16 @@ let ret = "<button id='btnParticipate" + id + "' class='participate icon'>" + ic
 
 }
 
-function addEventListeners(ids) {
+function addEventListeners(ids,shared = false) {
   ids.forEach(elem => {
     if (elem.type == "edit") {
       document.getElementById(elem['buttonId']).addEventListener("click", function () {
         //edit
-        window.location.href = "/edit/?id=" + elem['id'];
+        let url = "/edit/?id=" + elem['id'];
+        if(shared){
+          url += "&shared=true";
+        }
+        window.location.href = url;
       });
     } else if (elem.type == "delete") {
       document.getElementById(elem['buttonId']).addEventListener("click", function () {
@@ -139,18 +163,17 @@ function fillDivsWithData() {
       response['sharedWishlists'].forEach(element => {
         let name = "<td>" + element["name"] + "</td>";
         let shared = "<td>" + element["moderator_id"] + "</td>";
-        let actions = "<td><button id='btnDelShared" + element['id'] + "' class='delbutton icon'>" + icons.trash + "</button></td>";
+        let actions = "<td>" + fillIcons(element, ids, true) + "</td>";
+        //let actions = "<td><button id='btnDelShared" + element['id'] + "' class='delbutton icon'>" + icons.trash + "</button></td>";
         tableSharedWishlists.innerHTML += "<tr>" + name + shared + actions + "</tr>";
-        ids.push({
-          id: 'btnDelShared' + element['id'],
-          obj: element
-        });
+        
       });
-      ids.forEach(elem => {
+      addEventListeners(ids,true);
+      /*ids.forEach(elem => {
         document.getElementById(elem['id']).addEventListener("click", function () {
           deleteModalClick(elem['obj']);
         });
-      });
+      });*/
     })
     .fail(function (error) {
       checkError(error);

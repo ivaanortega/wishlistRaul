@@ -38,11 +38,15 @@ app.get("/getMysqlStatus", (req, res) => {
 // Ruta para registrar un usuario
 app.post('/register', (req, res) => {
     console.log(req.body);
-  const { username, password } = req.body;
+  const { username, password, email } = req.body;
+  //check that email is valid
+  if(!email || !email.includes('@') || !email.includes('.')){
+    return res.status(500).json({ error: 'El email no es válido' });
+  }
   const hashedPassword = bcrypt.hashSync(password, 10);
 
-  const sql = 'INSERT INTO users (username, password) VALUES (?, ?)';
-  db.query(sql, [username, hashedPassword], (err, result) => {
+  const sql = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
+  db.query(sql, [username, email, hashedPassword], (err, result) => {
     if (err) {
       res.status(500).json({ error: 'Error al registrar el usuario' });
     } else {
@@ -272,7 +276,15 @@ app.get('/wishlists', verifyToken, (req, res) => {
     const userId = req.user.id;
   
     const sql = `
-      SELECT w.id, w.name, u.username as moderator_id, w.created_at, wm.attend
+      SELECT w.id, w.name, u.username as moderator_id, w.created_at, wm.attend,
+      CASE
+          WHEN EXISTS (SELECT 1 FROM products p WHERE p.wishlist_id = w.id AND p.purchased = 0) THEN true
+          ELSE false
+        END AS hasProducts,
+        CASE
+          WHEN EXISTS (SELECT 1 FROM wishlist_members wm WHERE wm.wishlist_id = w.id) THEN true
+          ELSE false
+        END AS shared
       FROM wishlists w
       INNER JOIN wishlist_members wm ON wm.wishlist_id = w.id
       INNER JOIN users u ON u.id = w.moderator_id
@@ -325,10 +337,10 @@ app.get('/wishlists', verifyToken, (req, res) => {
   // Ruta para compartir una lista de deseos con un usuario
 app.post('/wishlists/:wishlistId/share', verifyToken, (req, res) => {
     const wishlistId = req.params.wishlistId;
-    const { username } = req.body;
+    const { email } = req.body;
   
-    const sql = 'SELECT id FROM users WHERE username = ? and id != ' + req.user.id;
-    db.query(sql, [username], (err, results) => {
+    const sql = 'SELECT id FROM users WHERE email = ? and id != ' + req.user.id;
+    db.query(sql, [email], (err, results) => {
       if (err) {
         res.status(500).json({ error: 'Error al compartir la lista de deseos' });
       } else if (results.length === 0) {
@@ -351,20 +363,32 @@ app.post('/wishlists/:wishlistId/share', verifyToken, (req, res) => {
   app.get('/wishlists/:wishlistId/products', verifyToken, (req, res) => {
     const wishlistId = req.params.wishlistId;
     const userId = req.user.id;
-
+    let wishlistName = '';
     const sql = `
-      SELECT p.id, p.name, p.purchased
+      SELECT DISTINCT p.id, p.name, p.purchased
       FROM products p
       INNER JOIN wishlists w ON p.wishlist_id = w.id
       LEFT JOIN wishlist_members wm ON wm.wishlist_id = w.id
       WHERE (w.moderator_id = ? OR wm.user_id = ?) AND w.id = ?
     `;
+    //get wishlist name
+    const sqlName = `SELECT name FROM wishlists w
+    LEFT JOIN wishlist_members wm ON wm.wishlist_id = w.id
+      WHERE (w.moderator_id = ? OR wm.user_id = ?) AND w.id = ?
+      `;
+    db.query(sqlName, [userId, userId, wishlistId], (err, results) => {
+      if (err) {
+        res.status(500).json({ error: 'Error al obtener el nombre de la lista de deseos' });
+      } else {
+        wishlistName = results[0].name;
+      }
+    });
 
     db.query(sql, [userId, userId, wishlistId], (err, results) => {
       if (err) {
         res.status(500).json({ error: 'Error al obtener los productos de la lista de deseos' });
       } else {
-        res.status(200).json({ products: results });
+        res.status(200).json({ products: results, wishlistName: wishlistName });
       }
     });
   });

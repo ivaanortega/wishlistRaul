@@ -16,7 +16,7 @@
             <h1>
                 <a href="/">Wishlist</a>
                 -
-                <a href="/user/index.html">raul</a>
+                <a href="/user/index.html" id="userName"></a>
             </h1>
 
             <button id="myBtn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-share-2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg></button>
@@ -24,7 +24,7 @@
     </header>
     <div class="my-lists">
         <div class="list-adder">
-            <h2>Birthday Joan</h2>
+            <h2 id="eventName"></h2>
 
             <form id="addProductForm">
                 <input id="productAdder" type="hidden" name="wishlistId" placeholder="ID de la lista" value="listId" required>
@@ -71,6 +71,33 @@
             </div>
         </div>
     </div>
+    <!-- The Modal -->
+    <div id="modalShare" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div>
+                <h2>Share</h2>
+                <p>You are going to share it with...</p>
+
+                <form id="shareEventForm">
+                    <div class="wrapper">
+                      <input type="text" name="email" placeholder="Email" required>
+                    </div>
+                    <span id="errorMessage"></span>
+                    <div class="modal-buttons">
+                      <button type="submit" style="width: 100%;">Continue</button>
+                    </div>
+                  </form>
+                  <div id="sharedUsers">
+                    <h3>Shared with...</h3>
+                    <ul id="sharedUsersList">
+                    </ul>
+                  </div>
+            </div>
+        </div>
+    </div>
     <script src="/icons/icons.js"></script>
     <script src="/js/api.js"></script>
     <script src="/js/colors.js"></script>
@@ -79,6 +106,14 @@
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             const listId = urlParams.get('id');
+            const isShared = urlParams.get('shared');
+            const modalShare = document.getElementById("modalShare");
+            
+            let listName = "";
+
+            document.getElementById("myBtn").onclick = function () {
+                modalShare.style.display = "block";
+            }
 
             fillDataEdit();
             addIdToInput();
@@ -88,11 +123,28 @@
                 // ir a buscar el input a traves del id que has añadido
                 // substituir el value => listId   
                 document.getElementById("productAdder").value = listId;
-
-
-                
+               
             }
 
+
+            $('#shareEventForm').submit(function(e) {
+                e.preventDefault();
+
+                let url = '/wishlists/:wishlistId/share';
+                url = url.replace(':wishlistId', listId);
+
+                const data = convertFormToJSON($(this));
+
+                postData(url, data)
+                .done(function(response) {
+                    alert(response.message);
+                    refresh();
+                })
+                .fail(function(error) {
+                    $('#errorMessage').text(error.responseJSON.error);
+                    checkError(error);
+                });
+            });
 
             function fillIcons(element, ids) {
 
@@ -102,7 +154,7 @@
                 
                 let ret = "<button id='btnCart" + id + "' class='edit icon " + purchasedClass + "'>" + icons.cart + "</button>";
                 
-                if (!element['purchased']) {
+                if (!element['purchased'] && !isShared) {
                     ret += "<button id='btnDel" + id + "' class='del icon'>" + icons.trash + "</button>";
                     purchasedClass = '';
                     
@@ -133,9 +185,9 @@
                 document.getElementById("deleteText").textContent = "The product " + element['name'] +
                     " will be deleted";
 
-                document.getElementById('deleteWishlistFormButton').addEventListener("click", function () {
+                document.getElementById('deleteWishlistFormButton').onclick = function () {
                     deleteProduct(listId, element['id']);
-                });
+                };
 
             }
 
@@ -173,15 +225,32 @@
                         let ids = [];
                         // Manipular la respuesta de la solicitud GET de wishlists
                         response['products'].forEach(element => {
+
                             let name = "<td>" + element["name"] + "</td>";
                             let actions = "<td>" + fillIcons(element, ids) + "</td>";
                             productsWishlists.innerHTML += "<tr>" + name + actions + "</tr>";
                         });
+
+                        $("#eventName").text(response['wishlistName']);
+
                         addEventListeners(ids);
                     })
                     .fail(function (error) {
                         checkError(error);
                     });
+
+                    getWithAuthorization('/wishlists/' + listId + '/shared-users')
+                        .done(function (response) {
+
+                            response['sharedUsers'].forEach(element => {
+                                let name = "<li>" + element["email"] + "</li>";
+                                $("#sharedUsersList").append(name);
+                            });
+                        })
+                        .fail(function (error) {
+                            checkError(error);
+                    });
+                    
             }
         });
 
@@ -192,11 +261,15 @@
         // When the user clicks on <span> (x), close the modal
         function closeModal() {
             modalDelete.style.display = "none";
+            modalShare.style.display = "none";
         }
         // When the user clicks anywhere outside of the modal, close it
         window.onclick = function (event) {
             if (event.target == modalDelete) {
                 modalDelete.style.display = "none";
+            }
+            if (event.target == modalShare) {
+                modalShare.style.display = "none"; 
             }
         }
     </script>

@@ -349,7 +349,9 @@ button.icon svg,.icon svg{
     
     cursor: pointer;
 }
-
+#userName{
+  text-transform: capitalize;
+}
 .graybg{
   background-color: var(--gray) !important;
 }
@@ -403,4 +405,10 @@ button.icon svg,.icon svg{
 
 .user-container button{
 
+}
+#errorMessage{
+  color: rgb(255, 77, 77);
+  font-size: 12px;
+  margin-top: 10px;
+  margin-bottom: 0;
 }
