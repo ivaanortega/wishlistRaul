@@ -15,21 +15,22 @@ html,body{
     padding: 0;
     font-family: "customFont";
     color: var(--white);
-    background: linear-gradient(100deg, gray, lightgray);
+    background: var(--background);
 }
 
 .text{
     display: block;
     text-align: center;
-    color: rgb(0, 0, 0);
-    
+    color: var(--text);
+    margin-bottom: 100px;
 }
 .text h1{
     justify-self: centers;
+    margin-bottom: 30px;
 }
 .form{
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
 }
 .form a{
     border-radius: 10px;
@@ -37,6 +38,8 @@ html,body{
     background: var(--primary);
 
     padding: 10px;
-    color: rgb(221, 221, 221);
+    color: white;
     box-shadow: 0px 5px 20px 0px rgba(174, 174, 174, 0.20);
+    font-weight: 1px;
+    margin: 20px;
 }
