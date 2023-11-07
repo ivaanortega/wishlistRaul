@@ -1,45 +1,82 @@
-:root {
-    --white: #fff;
-    --primary: #FEAF00;
-    --secondary: #F8D442;
-    --buttonColor: white;
-    --gray:  #bebebe;;
-    --text: black;
-    --icons: var(--primary);
-    --background: rgb(252, 245, 245);
-    --box-background: white;
-  }
 
-html,body{
+  body {
     margin: 0;
     padding: 0;
     font-family: "customFont";
-    color: var(--white);
-    background: var(--background);
+    
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+h1{
+    text-transform: capitalize;
 }
 
-.text{
-    display: block;
-    text-align: center;
-    color: var(--text);
-    margin-bottom: 100px;
-}
-.text h1{
-    justify-self: centers;
-    margin-bottom: 30px;
-}
-.form{
+.container {
     display: flex;
     justify-content: center;
+    align-items: center;
+    max-width: 90%;
+    width: 100%;
+    border-radius: 15px;
+    border: 1px solid var(--background);
+    background: var(--box-background);
 }
-.form a{
-    border-radius: 10px;
-    border: 1px solid #EAEAEA;
-    background: var(--primary);
 
-    padding: 10px;
-    color: white;
-    box-shadow: 0px 5px 20px 0px rgba(174, 174, 174, 0.20);
-    font-weight: 1px;
-    margin: 20px;
+.columnas {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.columna-izquierda, .columna-derecha {
+    padding: 20px;
+    flex: 1;
+}
+
+.imagen {
+    max-width: 80%;
+    max-height: 80%;
+    min-width: 400px;
+    height: auto;
+    width: auto;
+    display: block;
+    margin: 0 auto;
+    transform: perspective(500px) rotateY(-30deg);
+    border: 1px solid var(--primary);
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    .columna-derecha {
+        display: block;
+    }
+    .imagen{
+        transform: none;
+    }
+}
+.buttons{
+    margin-top: 40px;
+    margin-right: 20px;
+}
+.columnas p{
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.columnas a{
+    border-radius: 10px;
+    border: 1px solid var(--background);
+    background: var(--primary);
+    height: 52px;
+    padding: 10px 20px;
+    color: var(--buttonColor);
+    box-shadow: 0px 5px 20px 0px var(--background);
+    font-weight: 500;
 }

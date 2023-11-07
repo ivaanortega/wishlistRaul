@@ -117,8 +117,25 @@
       </div>
     </div>
   </div>
-    <div></div>
+  <div id="viewModalInvitats" class="modal">
 
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <div>
+        <h2 id="viewModalTitle2"></h2>
+        <div id="willAttend">
+          <h3>Will you be there?</h3>
+          <div id="willAssist"></div><div id="willNotAssist"></div>    
+          
+        </div>
+        <div id="viewModalList2">
+
+        </div>
+        
+
+      </div>
+    </div>
   </div>
 
 
@@ -131,6 +148,7 @@
     var modal = document.getElementById("myModal");
     const modalView = document.getElementById("viewModal");
     const modalDelete = document.getElementById("modalConfirmDelete");
+    const modalInvitats = document.getElementById("viewModalInvitats");
 
     // Get the button that opens the modal
     var btn = document.getElementById("myBtn");
@@ -145,16 +163,19 @@
       modal.style.display = "none";
       modalView.style.display = "none";
       modalDelete.style.display = "none";
+      modalInvitats.style.display = "none";
     }
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
       if (event.target == modal ||
         event.target == modalView ||
-        event.target == modalDelete
+        event.target == modalDelete ||
+        event.target == modalInvitats
       ) {
         modal.style.display = "none";
         modalDelete.style.display = "none";
         modalView.style.display = "none";
+        modalInvitats.style.display = "none";
       }
     }
   </script>

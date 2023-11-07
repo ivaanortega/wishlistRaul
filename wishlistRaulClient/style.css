@@ -416,3 +416,46 @@ button.icon svg,.icon svg{
 .text{
   
 }
+.modal-content svg{
+  color: var(--primary);
+}
+#willAttend{
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--gray);
+  margin-bottom: 20px;
+}
+#willAttend div{
+  cursor: pointer;
+}
+#willAttend h3{
+  flex-grow: 1;
+  margin-top: 0px;
+}
+.attendElem{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.theme-buttons button{
+  border-radius: 10px;
+  height: 40px;
+  width: 100px;
+  padding: 10px;
+  cursor: pointer;
+}
+button#blue{
+  border: 1px solid rgb(252, 245, 245);
+  background: #5538fd;
+  color: white;
+}
+button#dark{
+  border: 1px solid rgb(88, 88, 88);
+  background: #1a1a1a;
+  color: white;
+}
+button#light{
+  border: 1px solid rgb(252, 245, 245);
+  background: #FEAF00;
+  color: white;
+}

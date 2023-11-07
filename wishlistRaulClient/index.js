@@ -122,6 +122,11 @@ function addEventListeners(ids,shared = false) {
         //show
         callView(elem);
       });
+    }else if(elem.type == "participate"){
+      document.getElementById(elem['buttonId']).addEventListener("click", function () {
+        //show
+        fillModalInvitats(elem, shared);
+      });
     }
 
   });
@@ -143,7 +148,7 @@ function fillDivsWithData() {
       // Manipular la respuesta de la solicitud GET de wishlists
       response['wishlists'].forEach(element => {
         let name = "<td>" + element["name"] + "</td>";
-        let shared = "<td>" + element["shared"] + "</td>";
+        let shared = "<td>" + (element["shared"] ? 'Si' : 'No') + "</td>";
         let actions = "<td>" + fillIcons(element, ids) + "</td>";
         tableWishlists.innerHTML += "<tr>" + name + shared + actions + "</tr>";
 
@@ -191,4 +196,78 @@ function deleteModalClick(element) {
     deleteElement(element['id']);
   };
 
+}
+function fillModalInvitats(elem, shared = false){
+  
+  const viewModalList = document.getElementById("viewModalList2");
+  const viewModalTitle = document.getElementById("viewModalTitle2");
+  const willAttend = document.getElementById("willAttend");
+  viewModalList.innerHTML = null;
+  const willAssist = document.getElementById("willAssist");
+  const willNotAssist = document.getElementById("willNotAssist");
+  willAssist.innerHTML = icons.check;
+  willNotAssist.innerHTML = icons.cross;
+  willAssist.onclick = function(){
+    updateAssist(elem.id,true);
+  }
+  willNotAssist.onclick = function(){
+    updateAssist(elem.id,false);
+  }
+  getWithAuthorization('/wishlists/' + elem.id + '/shared-users')
+    .done(function (response) {
+
+      const modalView = document.getElementById("viewModalInvitats");
+      
+      
+      viewModalTitle.innerText = elem.obj['name'];
+      modalView.style.display = "block";
+      let usuarios = [];
+      console.log(response);
+
+      console.log(shared);
+      if(shared){
+        willAttend.style.display = "flex";
+        console.log("block");
+      }else{
+        willAttend.style.display = "none";
+        console.log("none");
+      }
+        
+
+      // Manipular la respuesta de la solicitud GET de wishlists
+      response['sharedUsers'].forEach(element => {
+        
+          usuarios.push(element);
+       
+      });
+
+      //clear data
+      usuarios.forEach(element => {
+          let iconAttend = "";
+          if(element['attend'] != null && element['attend']){
+            iconAttend = icons.check;
+          }else if(element['attend'] != null && !element['attend']){ 
+            iconAttend = icons.cross;
+          }
+
+          viewModalList.innerHTML += '<div class="attendElem"><span>' + element['email'] + '</span>' + iconAttend  +'</div>';
+        });
+
+    })
+    .fail(function (error) {
+      checkError(error);
+    });
+
+    function updateAssist(id,assist){
+      let data = {
+        assist: assist
+      }
+      putData('/wishlists/' + id + '/attend/',data)
+      .done(function (response) {
+        refresh();
+      })
+      .fail(function (error) {
+        checkError(error);
+      });
+    }
 }

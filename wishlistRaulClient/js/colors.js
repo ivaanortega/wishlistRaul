@@ -70,6 +70,7 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', eve
 
 function setColor(color){;
     setVariables(aColor[color]);
+    localStorage.setItem("colorTheme", color.toLowerCase());
 }
 
 function getColorList(){
@@ -84,7 +85,7 @@ function updateColor(color){
     user.theme = color.toLowerCase();
 
    putData('/users/'+ user['id'],user).done(function (response) {
-        localStorage.setItem("colorTheme", color.toLowerCase());
+        
         setColor(color.toLowerCase());
     })
     .fail(function (error) {

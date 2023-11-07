@@ -304,33 +304,22 @@ app.get('/wishlists', verifyToken, (req, res) => {
   app.get('/wishlists/:wishlistId/shared-users', verifyToken, (req, res) => {
     const wishlistId = req.params.wishlistId;
 
-    // Verifica si el usuario autenticado es el moderador de la lista de deseos
-    const moderatorId = req.user.id;
-    const checkModerator = 'SELECT id FROM wishlists WHERE id = ? AND moderator_id = ?';
+      // Si el usuario es el moderador, busca los usuarios compartidos en la lista de deseos
+      const sql = `
+        SELECT u.id, u.username, u.email, wm.attend
+        FROM users u
+        INNER JOIN wishlist_members wm ON u.id = wm.user_id
+        WHERE wm.wishlist_id = ?
+      `;
 
-    db.query(checkModerator, [wishlistId, moderatorId], (err, result) => {
-      if (err) {
-        res.status(500).json({ error: 'Error al verificar el moderador de la lista de deseos' });
-      } else if (result.length === 0) {
-        res.status(403).json({ error: 'No tienes permiso para acceder a esta lista de deseos' });
-      } else {
-        // Si el usuario es el moderador, busca los usuarios compartidos en la lista de deseos
-        const sql = `
-          SELECT u.id, u.username, u.email, wm.attend
-          FROM users u
-          INNER JOIN wishlist_members wm ON u.id = wm.user_id
-          WHERE wm.wishlist_id = ?
-        `;
+      db.query(sql, [wishlistId], (err, results) => {
+        if (err) {
+          res.status(500).json({ error: 'Error al obtener la lista de usuarios compartidos' });
+        } else {
+          res.status(200).json({ sharedUsers: results });
+        }
+      });
 
-        db.query(sql, [wishlistId], (err, results) => {
-          if (err) {
-            res.status(500).json({ error: 'Error al obtener la lista de usuarios compartidos' });
-          } else {
-            res.status(200).json({ sharedUsers: results });
-          }
-        });
-      }
-    });
   });
 
 

@@ -16,17 +16,24 @@
         </h1>
       </div>
     </header>
-    <div class="user-container">
+    <div class="user-container" style="margin-top: 50px;">
       <div class="user-information">
-        <p>user name</p>
-        <hr />
-        <br />
+        <h3>User Information</h3>
+          <hr>
+        <p><b>Name:</b> <span id="userName"></span></p>
+        <p><b>Email:</b> <span id="email"></span></p>
+<br>
+        <!--  three buttons to change color theme light dark or blue -->
+        <div class="theme-buttons">
+          <h3>Color Theme</h3>
+          <hr>
+          <button id="light" onclick="updateColor('light')">Light</button>
+          <button id="dark" onclick="updateColor('dark')">Dark</button>
+          <button id="blue" onclick="updateColor('blue')">Blue</button>
+        </div>
 
-        <p>user email</p>
-        <hr />
-        <br />
         <div class="modal-buttons">
-          <button onClick="logout()">logout</button>
+          <button onClick="logout()">Logout</button>
         </div>
       </div>
     </div>
@@ -34,5 +41,17 @@
     <script src="/js/api.js"></script>
     <script src="/index.js"></script>
     <script src="/js/colors.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        const token = localStorage.getItem("accessToken");
+        if (!token) {
+          logout();
+        }
+      
+      });
+
+    </script>
+
   </body>
 </html>

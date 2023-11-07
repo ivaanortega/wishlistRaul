@@ -273,6 +273,7 @@ function postData(url, data, auth = true) {
         .done(function (response) {
             user = response['user'][0];
             $('#userName').text(user.username);
+            $('#email').text(user.email);
         })
         .fail(function (error) {
         checkError(error);
@@ -280,7 +281,9 @@ function postData(url, data, auth = true) {
   }else{
     user = null;
   }
-
+function getUser(){
+  return user;
+}
 
   function logout(){
     localStorage.removeItem("accessToken");
