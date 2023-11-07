@@ -148,7 +148,7 @@ function fillDivsWithData() {
       // Manipular la respuesta de la solicitud GET de wishlists
       response['wishlists'].forEach(element => {
         let name = "<td>" + element["name"] + "</td>";
-        let shared = "<td>" + (element["shared"] ? 'Si' : 'No') + "</td>";
+        let shared = "<td>" + (element["shared"] ? 'Yes' : 'No') + "</td>";
         let actions = "<td>" + fillIcons(element, ids) + "</td>";
         tableWishlists.innerHTML += "<tr>" + name + shared + actions + "</tr>";
 
